@@ -1,4 +1,4 @@
-{
+ {
   "variables": {
     "vsphere_server": "",
     "vsphere_user": "",
@@ -64,12 +64,19 @@
           "[datastore1] ISOs/CentOS-7-x86_64-Minimal-2009.iso"
         ],
         "floppy_files": [
-          "ks.cfg"
+          "/tmp/post1/setup-centos7/ks.cfg"
         ],
         "boot_command": [        
           "<esc><wait>",        
           "linux ks=hd:fd0:/ks.cfg<enter>"      
         ]
       }
-   ]
-}
+   ],
+ "provisioners": [
+  {
+    "type": "shell",
+    "execute_command": "{{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+    "script": "/tmp/post1/packer/scripts/centos-vmware-cleanup.sh"
+  }
+ ]
+ }
